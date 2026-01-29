@@ -1,6 +1,5 @@
 import { Badge } from "@gmook9/pristine-ui";
-import { ImageIcon, ShieldCheck, Snowflake } from "lucide-react";
-import { DollarSign } from "lucide-react";
+import { ImageIcon, ShieldCheck, Snowflake, DollarSign } from "lucide-react";
 import { ReactCountryFlag } from "react-country-flag";
 
 export default function TopSection() {
