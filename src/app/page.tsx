@@ -252,17 +252,17 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0">
         <PixelSnow
           color="#ffffff"
-          flakeSize={0.01}
+          flakeSize={0.03}
           minFlakeSize={1.25}
-          pixelResolution={200}
-          speed={1.25}
-          density={0.3}
+          pixelResolution={900}
+          speed={0.6}
+          density={0.2}
           direction={125}
-          brightness={1}
-          depthFade={8}
+          brightness={0.2}
+          depthFade={9}
           farPlane={20}
           gamma={0.4545}
-          variant="square"
+          variant="snowflake"
         />
       </div>
       <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 pb-12 pt-[calc(env(safe-area-inset-top)+2.5rem)]">
