@@ -10,6 +10,9 @@ import {
 } from "@gmook9/pristine-ui";
 import ImageDropzone from "@/components/ImageDropzone";
 import ConvertList from "@/components/ConvertList";
+import PixelSnow from "@/components/PixelSnow";
+import TopSection from "@/components/TopSection";
+import Footer from "@/components/Footer";
 import { convertImage, getImageMeta } from "@/lib/image";
 import type { ImageItem, ImageSettings, OutputFormat } from "@/types";
 
@@ -245,17 +248,29 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <main className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-6 py-12">
-        <header className="space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight">Image Converter</h1>
-          <p className="text-sm text-zinc-400">
-            Convert and optimize images locally in your browser. No uploads, no
-            servers.
-          </p>
-        </header>
+    <div className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+      <div className="pointer-events-none absolute inset-0">
+        <PixelSnow
+          color="#ffffff"
+          flakeSize={0.01}
+          minFlakeSize={1.25}
+          pixelResolution={200}
+          speed={1.25}
+          density={0.3}
+          direction={125}
+          brightness={1}
+          depthFade={8}
+          farPlane={20}
+          gamma={0.4545}
+          variant="square"
+        />
+      </div>
+      <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 pb-12 pt-[calc(env(safe-area-inset-top)+2.5rem)]">
+        <TopSection />
 
-        <ImageDropzone onFilesAdded={handleFilesAdded} />
+        <section id="converter" className="space-y-6">
+          <ImageDropzone onFilesAdded={handleFilesAdded} />
+        </section>
 
         {items.length > 0 && (
           <section className="space-y-4">
@@ -285,6 +300,7 @@ export default function Home() {
           </section>
         )}
       </main>
+      <Footer />
       {limitToastOpen ? (
         <div className="pointer-events-none fixed bottom-6 right-6 z-20 w-full max-w-sm">
           <Toast className="pointer-events-auto border border-zinc-800 bg-zinc-950 text-zinc-100 shadow-lg">
