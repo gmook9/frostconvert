@@ -93,9 +93,10 @@ function getTargetSize(
   }
 
   if (targetWidth && targetHeight) {
+    const scale = Math.min(targetWidth / width, targetHeight / height);
     return {
-      width: targetWidth,
-      height: Math.round((targetWidth / width) * height),
+      width: Math.max(1, Math.round(width * scale)),
+      height: Math.max(1, Math.round(height * scale)),
     };
   }
 

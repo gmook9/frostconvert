@@ -49,6 +49,9 @@ export default function ConvertRow({
   const resize = item.settings.resize ?? { lockAspect: true };
   const qualityPercent = Math.round((item.settings.quality ?? 0.9) * 100);
   const outputLabel = getOutputLabel(item);
+  const availableOptions = OUTPUT_OPTIONS.filter(
+    (option) => option.value !== item.file.type
+  );
 
   return (
     <Card className="border border-zinc-800 bg-zinc-900/60 text-zinc-100">
@@ -92,6 +95,7 @@ export default function ConvertRow({
             <label className="flex flex-col gap-2 text-xs text-zinc-400">
               Output format
               <Select
+                className="bg-zinc-950 text-zinc-100 border border-zinc-700 focus:border-zinc-500"
                 value={item.settings.format}
                 onChange={(event) => {
                   const nextFormat = event.target.value as OutputFormat;
@@ -105,8 +109,12 @@ export default function ConvertRow({
                   });
                 }}
               >
-                {OUTPUT_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
+                {availableOptions.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    className="bg-zinc-950 text-zinc-100"
+                  >
                     {option.label}
                   </option>
                 ))}
