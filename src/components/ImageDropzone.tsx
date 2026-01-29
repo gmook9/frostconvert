@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import type { DragEvent } from "react";
 import { Button, Card, CardContent } from "@gmook9/pristine-ui";
+import { FilePlus2 } from "lucide-react";
 
 const ACCEPTED_TYPES = [
   "image/png",
@@ -85,7 +86,9 @@ export default function ImageDropzone({ onFilesAdded }: ImageDropzoneProps) {
             event.stopPropagation();
             handleBrowse();
           }}
+          className="gap-2"
         >
+          <FilePlus2 className="h-4 w-4" />
           Browse files
         </Button>
         <input
