@@ -27,7 +27,7 @@ const SUPPORTED_INPUTS = [
 
 const LIMITS = {
   windowMs: 60 * 60 * 1000,
-  maxConversions: 20,
+  maxConversions: 99,
   storageKey: "image_converter_conversions",
 } as const;
 

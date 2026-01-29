@@ -1,5 +1,5 @@
 import { Badge } from "@gmook9/pristine-ui";
-import { ImageIcon, ShieldCheck, Snowflake, DollarSign } from "lucide-react";
+import { ImageIcon, GlobeX, Snowflake, DollarSign,} from "lucide-react";
 import { ReactCountryFlag } from "react-country-flag";
 
 export default function TopSection() {
@@ -27,7 +27,7 @@ export default function TopSection() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-            <div className="rounded-full border border-zinc-800/70 bg-zinc-950/40 px-3 py-1.5 text-[11px] text-zinc-300 backdrop-blur">
+            <div className="rounded-full border border-zinc-800/70 bg-zinc-800/60 px-3 py-1.5 text-[11px] text-zinc-300 backdrop-blur">
               <span className="flex items-center gap-2 text-sky-200">
                  Made in USA
                 <ReactCountryFlag
@@ -49,8 +49,8 @@ export default function TopSection() {
         <div className="mt-10 grid w-full items-center gap-8 md:grid-cols-[1fr_auto] md:gap-10">
           <div className="space-y-4 text-center md:text-left">
             <h1 className="text-3xl font-semibold tracking-tight text-zinc-50 sm:text-5xl">
-              Fast image conversion,
-              <span className="block bg-gradient-to-r from-sky-200 via-sky-100 to-zinc-100 bg-clip-text text-transparent">
+              Fast image conversion,{" "}
+              <span className="inline-block bg-linear-to-r from-sky-200 via-sky-100 to-zinc-100 bg-clip-text pb-1 text-transparent leading-tight">
                 right in your browser.
               </span>
             </h1>
@@ -67,7 +67,7 @@ export default function TopSection() {
                   Instant downloads
                 </Badge>
                 <Badge className="flex items-center gap-2 bg-zinc-800/60 text-zinc-200">
-                  <ShieldCheck className="h-3.5 w-3.5" />
+                  <GlobeX className="h-3.5 w-3.5" />
                   No uploads
                 </Badge>
                 <Badge className="flex items-center gap-2 bg-emerald-500/15 text-emerald-200">
