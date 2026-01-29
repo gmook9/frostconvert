@@ -327,7 +327,7 @@ export default function Home() {
   const hasItems = items.length > 0;
 
   return (
-    <div className="relative min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="relative min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <div className="pointer-events-none fixed inset-0 z-0">
         <PixelSnow
           color="#ffffff"
@@ -344,7 +344,7 @@ export default function Home() {
           variant="snowflake"
         />
       </div>
-      <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 pb-12 pt-[calc(env(safe-area-inset-top)+2.5rem)]">
+      <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-10 px-6 pb-12 pt-[calc(env(safe-area-inset-top)+2.5rem)]">
         <TopSection />
 
         <section id="converter" className="space-y-6">
@@ -410,7 +410,9 @@ export default function Home() {
           </section>
         )}
       </main>
-      <Footer />
+      <div className="mt-auto">
+        <Footer />
+      </div>
       {limitToastOpen ? (
         <div className="pointer-events-none fixed bottom-6 right-6 z-20 w-full max-w-sm">
           <Toast className="pointer-events-auto border border-zinc-800 bg-zinc-950 text-zinc-100 shadow-lg">

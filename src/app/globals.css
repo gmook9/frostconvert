@@ -120,5 +120,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #0a0a0f;
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+  }
+
+  html {
+    background-color: #0a0a0f;
+    min-height: 100dvh;
   }
 }
