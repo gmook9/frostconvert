@@ -327,8 +327,8 @@ export default function Home() {
   const hasItems = items.length > 0;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-      <div className="pointer-events-none absolute inset-0">
+    <div className="relative min-h-screen bg-zinc-950 text-zinc-100">
+      <div className="pointer-events-none fixed inset-0 z-0">
         <PixelSnow
           color="#ffffff"
           flakeSize={0.03}
