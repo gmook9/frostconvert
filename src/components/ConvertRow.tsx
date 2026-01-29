@@ -1,6 +1,21 @@
 "use client";
 
-import { Badge, Button, Card, CardContent, CardFooter, Input, Select, Switch } from "@gmook9/pristine-ui";
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  Input,
+  Select,
+  Switch,
+  Toast,
+  ToastAction,
+  ToastDescription,
+  ToastTitle,
+} from "@gmook9/pristine-ui";
+import { Download, RefreshCw, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { ImageItem, ImageSettings, OutputFormat } from "@/types";
 
 const OUTPUT_OPTIONS: { label: string; value: OutputFormat }[] = [
@@ -8,6 +23,8 @@ const OUTPUT_OPTIONS: { label: string; value: OutputFormat }[] = [
   { label: "JPG", value: "image/jpeg" },
   { label: "WEBP", value: "image/webp" },
 ];
+
+const MAX_RESIZE_PX = 8000;
 
 function formatBytes(bytes: number): string {
   if (!Number.isFinite(bytes)) {
@@ -46,9 +63,30 @@ export default function ConvertRow({
   onRemove,
   onDownload,
 }: ConvertRowProps) {
+  const [resizeToastOpen, setResizeToastOpen] = useState(false);
   const resize = item.settings.resize ?? { lockAspect: true };
   const qualityPercent = Math.round((item.settings.quality ?? 0.9) * 100);
   const outputLabel = getOutputLabel(item);
+  const availableOptions = OUTPUT_OPTIONS.filter(
+    (option) => option.value !== item.file.type
+  );
+
+  useEffect(() => {
+    if (!resizeToastOpen) return;
+    const timer = window.setTimeout(() => setResizeToastOpen(false), 4500);
+    return () => window.clearTimeout(timer);
+  }, [resizeToastOpen]);
+
+  const clampResizeValue = (value: string): number | undefined => {
+    if (!value) return undefined;
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return undefined;
+    if (parsed > MAX_RESIZE_PX) {
+      setResizeToastOpen(true);
+      return MAX_RESIZE_PX;
+    }
+    return parsed;
+  };
 
   return (
     <Card className="border border-zinc-800 bg-zinc-900/60 text-zinc-100">
@@ -92,6 +130,7 @@ export default function ConvertRow({
             <label className="flex flex-col gap-2 text-xs text-zinc-400">
               Output format
               <Select
+                className="bg-zinc-950 text-zinc-100 border border-zinc-700 focus:border-zinc-500"
                 value={item.settings.format}
                 onChange={(event) => {
                   const nextFormat = event.target.value as OutputFormat;
@@ -105,8 +144,12 @@ export default function ConvertRow({
                   });
                 }}
               >
-                {OUTPUT_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
+                {availableOptions.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    className="bg-zinc-950 text-zinc-100"
+                  >
                     {option.label}
                   </option>
                 ))}
@@ -135,6 +178,7 @@ export default function ConvertRow({
             <div className="grid gap-2 text-xs text-zinc-400">
               <div className="flex items-center justify-between">
                 Resize (optional)
+                <span className="text-[11px] text-zinc-500">Pixels</span>
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] text-zinc-500">Lock</span>
                   <Switch
@@ -152,15 +196,16 @@ export default function ConvertRow({
                 <Input
                   type="number"
                   min={1}
+                  max={MAX_RESIZE_PX}
                   placeholder="Width"
                   value={resize.width ?? ""}
                   onChange={(event) => {
-                    const value = event.target.value;
+                    const value = clampResizeValue(event.target.value);
                     onSettingsChange(item.id, {
                       ...item.settings,
                       resize: {
                         ...resize,
-                        width: value ? Number(value) : undefined,
+                        width: value,
                       },
                     });
                   }}
@@ -168,15 +213,16 @@ export default function ConvertRow({
                 <Input
                   type="number"
                   min={1}
+                  max={MAX_RESIZE_PX}
                   placeholder="Height"
                   value={resize.height ?? ""}
                   onChange={(event) => {
-                    const value = event.target.value;
+                    const value = clampResizeValue(event.target.value);
                     onSettingsChange(item.id, {
                       ...item.settings,
                       resize: {
                         ...resize,
-                        height: value ? Number(value) : undefined,
+                        height: value,
                       },
                     });
                   }}
@@ -195,7 +241,9 @@ export default function ConvertRow({
             variant="subtle"
             type="button"
             onClick={() => onRemove(item.id)}
+            className="gap-2"
           >
+            <Trash2 className="h-4 w-4" />
             Remove
           </Button>
           <Button
@@ -203,18 +251,49 @@ export default function ConvertRow({
             variant="primary"
             onClick={() => onConvert(item.id)}
             disabled={!item.meta || item.isConverting}
+            className="gap-2"
           >
+            <RefreshCw className="h-4 w-4" />
             {item.isConverting ? "Converting..." : "Convert"}
           </Button>
           <Button
             type="button"
             onClick={() => onDownload(item.id)}
             disabled={!item.output}
+            className={`gap-2 ${
+              item.output
+                ? "!bg-emerald-500 !text-white hover:!bg-emerald-400"
+                : ""
+            }`}
           >
+            <Download className="h-4 w-4" />
             Download
           </Button>
         </div>
       </CardFooter>
+      {resizeToastOpen ? (
+        <div className="pointer-events-none fixed bottom-6 right-6 z-20 w-full max-w-sm">
+          <Toast className="pointer-events-auto border border-zinc-800 bg-zinc-950 text-zinc-100 shadow-lg">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <ToastTitle className="text-sm font-semibold">
+                  Max resize reached
+                </ToastTitle>
+                <ToastDescription className="text-xs text-zinc-400">
+                  Resize values are capped at {MAX_RESIZE_PX} pixels to keep
+                  conversions stable.
+                </ToastDescription>
+              </div>
+              <ToastAction
+                className="text-xs"
+                onClick={() => setResizeToastOpen(false)}
+              >
+                Dismiss
+              </ToastAction>
+            </div>
+          </Toast>
+        </div>
+      ) : null}
     </Card>
   );
 }
