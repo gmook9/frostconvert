@@ -9,6 +9,7 @@ import {
   ToastDescription,
   ToastTitle,
 } from "@gmook9/pristine-ui";
+import { Download, RefreshCw, Trash2 } from "lucide-react";
 import ImageDropzone from "@/components/ImageDropzone";
 import ConvertList from "@/components/ConvertList";
 import PixelSnow from "@/components/PixelSnow";
@@ -365,16 +366,10 @@ export default function Home() {
                   variant="subtle"
                   onClick={handleRemoveAll}
                   disabled={!hasItems}
+                  className="gap-2"
                 >
+                  <Trash2 className="h-4 w-4" />
                   Remove all
-                </Button>
-                <Button
-                  type="button"
-                  variant="subtle"
-                  onClick={handleDownloadAll}
-                  disabled={!canDownloadAll}
-                >
-                  Download all
                 </Button>
                 <Tooltip
                   text="Convert all uses each row's current settings. Empty resize fields keep original size. No auto-fill to avoid surprise resizing."
@@ -386,11 +381,23 @@ export default function Home() {
                       variant="primary"
                       onClick={handleConvertAll}
                       disabled={!canConvertAll || isConvertingAll}
+                      className="gap-2"
                     >
+                      <RefreshCw className="h-4 w-4" />
                       {isConvertingAll ? "Converting..." : "Convert all"}
                     </Button>
                   </span>
                 </Tooltip>
+                <Button
+                  type="button"
+                  variant="subtle"
+                  onClick={handleDownloadAll}
+                  disabled={!canDownloadAll}
+                  className="gap-2"
+                >
+                  <Download className="h-4 w-4" />
+                  Download all
+                </Button>
               </div>
             </div>
             <ConvertList
