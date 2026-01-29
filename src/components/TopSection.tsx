@@ -5,10 +5,6 @@ import { ReactCountryFlag } from "react-country-flag";
 export default function TopSection() {
   return (
     <section className="relative flex w-full flex-col items-center gap-6">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-120px] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl" />
-        <div className="absolute right-[-120px] top-[80px] h-[380px] w-[380px] rounded-full bg-indigo-500/10 blur-3xl" />
-      </div>
 
       <div className="w-full max-w-5xl">
         <nav className="flex w-full items-center justify-between gap-4">
