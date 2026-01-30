@@ -17,12 +17,20 @@ import {
 import { Download, RefreshCw, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ImageItem, ImageSettings, OutputFormat } from "@/types";
+import { getSupportedOutputFormats } from "@/lib/image";
 
-const OUTPUT_OPTIONS: { label: string; value: OutputFormat }[] = [
-  { label: "PNG", value: "image/png" },
-  { label: "JPG", value: "image/jpeg" },
-  { label: "WEBP", value: "image/webp" },
-];
+const OUTPUT_LABELS: Record<OutputFormat, string> = {
+  "image/png": "PNG",
+  "image/jpeg": "JPG",
+  "image/webp": "WEBP",
+  "image/avif": "AVIF",
+};
+
+const OUTPUT_OPTIONS: { label: string; value: OutputFormat }[] =
+  getSupportedOutputFormats().map((format) => ({
+    label: OUTPUT_LABELS[format],
+    value: format,
+  }));
 
 const MAX_RESIZE_PX = 8000;
 
