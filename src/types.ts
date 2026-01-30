@@ -1,4 +1,8 @@
-export type OutputFormat = "image/png" | "image/jpeg" | "image/webp";
+export type OutputFormat =
+  | "image/png"
+  | "image/jpeg"
+  | "image/webp"
+  | "image/avif";
 
 export interface ImageMeta {
   width: number;
