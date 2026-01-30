@@ -22,7 +22,10 @@ const SUPPORTED_INPUTS = [
   "image/png",
   "image/jpeg",
   "image/webp",
+  "image/avif",
   "image/gif",
+  "image/svg+xml",
+  "image/bmp",
 ];
 
 const LIMITS = {
@@ -40,13 +43,20 @@ function getDefaultFormat(type: string): OutputFormat {
   if (type === "image/png") return "image/jpeg";
   if (type === "image/jpeg") return "image/webp";
   if (type === "image/webp") return "image/jpeg";
+  if (type === "image/avif") return "image/webp";
   return "image/png";
 }
 
 function getOutputFileName(name: string, format: OutputFormat): string {
   const base = name.replace(/\.[^/.]+$/, "");
   const extension =
-    format === "image/png" ? ".png" : format === "image/webp" ? ".webp" : ".jpg";
+    format === "image/png"
+      ? ".png"
+      : format === "image/webp"
+        ? ".webp"
+        : format === "image/avif"
+          ? ".avif"
+          : ".jpg";
   return `${base || "image"}${extension}`;
 }
 
