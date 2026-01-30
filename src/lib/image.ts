@@ -7,14 +7,30 @@ type DecodedImage = {
   dispose: () => void;
 };
 
-const SUPPORTED_OUTPUTS: OutputFormat[] = [
-  "image/png",
-  "image/jpeg",
-  "image/webp",
-];
+const BASE_OUTPUTS: OutputFormat[] = ["image/png", "image/jpeg", "image/webp"];
+const AVIF_FORMAT: OutputFormat = "image/avif";
+
+let cachedOutputs: OutputFormat[] | null = null;
+
+function supportsAvif(): boolean {
+  if (typeof document === "undefined") return false;
+  try {
+    const canvas = document.createElement("canvas");
+    const dataUrl = canvas.toDataURL("image/avif");
+    return dataUrl.startsWith("data:image/avif");
+  } catch {
+    return false;
+  }
+}
+
+export function getSupportedOutputFormats(): OutputFormat[] {
+  if (cachedOutputs) return cachedOutputs;
+  cachedOutputs = supportsAvif() ? [...BASE_OUTPUTS, AVIF_FORMAT] : [...BASE_OUTPUTS];
+  return cachedOutputs;
+}
 
 function isValidOutput(format: string): format is OutputFormat {
-  return SUPPORTED_OUTPUTS.includes(format as OutputFormat);
+  return getSupportedOutputFormats().includes(format as OutputFormat);
 }
 
 async function decodeWithImageBitmap(file: File): Promise<DecodedImage> {

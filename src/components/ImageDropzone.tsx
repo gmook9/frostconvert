@@ -9,7 +9,10 @@ const ACCEPTED_TYPES = [
   "image/png",
   "image/jpeg",
   "image/webp",
+  "image/avif",
   "image/gif",
+  "image/svg+xml",
+  "image/bmp",
 ];
 
 function filterSupportedFiles(files: FileList | File[]): File[] {
@@ -77,7 +80,7 @@ export default function ImageDropzone({ onFilesAdded }: ImageDropzoneProps) {
       <CardContent className="flex flex-col items-center gap-4 py-10 text-center">
         <div className="text-lg font-semibold">Drop images here</div>
         <p className="max-w-md text-sm text-zinc-400">
-          PNG, JPG/JPEG, WEBP (GIF supported as a static image).
+          PNG, JPG/JPEG, WEBP, AVIF, SVG, BMP (GIF supported as a static image).
         </p>
         <Button
           type="button"
